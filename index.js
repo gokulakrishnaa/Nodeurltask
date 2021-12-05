@@ -43,11 +43,7 @@ export async function createUser(data) {
 }
 
 export async function getAllUsers() {
-  return await client
-    .db("urlusers")
-    .collection("users")
-    .find({}, { email: email, firstname: firstname })
-    .toArray();
+  return await client.db("urlusers").collection("users").find({}).toArray();
 }
 
 export async function getUserByMail(email) {
