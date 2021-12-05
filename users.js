@@ -2,17 +2,14 @@ import express from "express";
 import {
   genPassword,
   createUser,
+  createStatus,
+  getStatus,
   getUserByMail,
   getAllUsers,
 } from "./index.js";
 import bcrypt from "bcrypt";
 
 const router = express.Router();
-
-router.route("/signup").get(async (request, response) => {
-  const data = await getAllUsers();
-  response.send(data);
-});
 
 router.route("/signup").post(async (request, response) => {
   const { email, firstname, lastname, password } = request.body;
@@ -37,8 +34,13 @@ router.route("/signup").post(async (request, response) => {
   response.send(result);
 });
 
+router.route("/signup").get(async (request, response) => {
+  const data = await getAllUsers();
+  response.send(data);
+});
+
 router.route("/login").post(async (request, response) => {
-  const { email, password } = request.body;
+  const { email, firstname, password } = request.body;
   const userFromDB = await getUserByMail(email);
   if (!userFromDB) {
     response.status(400).send({ message: "Invalid Credentials" });
@@ -53,10 +55,16 @@ router.route("/login").post(async (request, response) => {
   const storedPassword = userFromDB.password;
   const isPasswordMatch = await bcrypt.compare(password, storedPassword);
   if (isPasswordMatch) {
-    response.send({ message: "Login Successful" });
+    const result = await createStatus({ current_status: "Logged In" });
+    response.send({ message: "Login Successful", result });
   } else {
     response.status(401).send({ message: "Invalid Credentials" });
   }
+});
+
+router.route("/login").get(async (request, response) => {
+  const data = await getStatus();
+  response.send({ message: "Welcome to Login Page", data });
 });
 
 export const userRouter = router;

@@ -42,6 +42,14 @@ export async function createUser(data) {
   return await client.db("urlusers").collection("users").insertOne(data);
 }
 
+export async function createStatus(data) {
+  return await client.db("urlusers").collection("status").insertOne(data);
+}
+
+export async function getStatus(data) {
+  return await client.db("urlusers").collection("status").find({}).toArray();
+}
+
 export async function getAllUsers() {
   return await client.db("urlusers").collection("users").find({}).toArray();
 }
