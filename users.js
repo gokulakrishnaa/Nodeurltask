@@ -10,8 +10,8 @@ import bcrypt from "bcrypt";
 const router = express.Router();
 
 router.route("/signup").get(async (request, response) => {
-  const { email, firstname } = await getAllUsers();
-  response.send({ email, firstname });
+  const data = await getAllUsers();
+  response.send(data);
 });
 
 router.route("/signup").post(async (request, response) => {
