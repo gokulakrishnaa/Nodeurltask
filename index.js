@@ -42,6 +42,14 @@ export async function createUser(data) {
   return await client.db("urlusers").collection("users").insertOne(data);
 }
 
+export async function getAllUsers() {
+  return await client
+    .db("urlusers")
+    .collection("users")
+    .find({}, { email: 1, firstname: 1 })
+    .toArray();
+}
+
 export async function getUserByMail(email) {
   return await client
     .db("urlusers")

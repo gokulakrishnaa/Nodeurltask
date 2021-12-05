@@ -1,11 +1,17 @@
 import express from "express";
-import { genPassword, createUser, getUserByMail } from "./index.js";
+import {
+  genPassword,
+  createUser,
+  getUserByMail,
+  getAllUsers,
+} from "./index.js";
 import bcrypt from "bcrypt";
 
 const router = express.Router();
 
-router.route("/signup").get((request, response) => {
-  response.send("Signed Up Succesfully");
+router.route("/signup").get(async (request, response) => {
+  const data = await getAllUsers();
+  response.send(data);
 });
 
 router.route("/signup").post(async (request, response) => {
