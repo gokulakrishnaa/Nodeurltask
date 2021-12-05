@@ -3,12 +3,14 @@ import { MongoClient } from "mongodb";
 import { userRouter } from "./users.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use(cors());
 
 const MONGO_URL = process.env.MONGO_URL;
 

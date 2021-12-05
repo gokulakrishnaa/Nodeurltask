@@ -4,6 +4,10 @@ import bcrypt from "bcrypt";
 
 const router = express.Router();
 
+router.route("/signup").get((request, response) => {
+  response.send("Signed Up Succesfully");
+});
+
 router.route("/signup").post(async (request, response) => {
   const { email, firstname, lastname, password } = request.body;
   const userFromDB = await getUserByMail(email);
