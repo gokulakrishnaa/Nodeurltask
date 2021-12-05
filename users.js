@@ -47,7 +47,6 @@ router.route("/login").post(async (request, response) => {
   } else {
     response.status(401).send({ message: "Invalid Credentials" });
   }
-  response.send(result);
 });
 
 export const userRouter = router;
