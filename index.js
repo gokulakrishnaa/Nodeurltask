@@ -46,7 +46,7 @@ export async function getAllUsers() {
   return await client
     .db("urlusers")
     .collection("users")
-    .find({}, { email: 1, firstname: 1 })
+    .find({}, { email: email, firstname: firstname })
     .toArray();
 }
 
