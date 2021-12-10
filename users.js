@@ -40,7 +40,7 @@ router.route("/signup").get(async (request, response) => {
 });
 
 router.route("/login").post(async (request, response) => {
-  const { email, firstname, password } = request.body;
+  const { email, password } = request.body;
   const userFromDB = await getUserByMail(email);
   if (!userFromDB) {
     response.status(400).send({ message: "Invalid Credentials" });

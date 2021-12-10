@@ -1,6 +1,7 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import { userRouter } from "./users.js";
+import { authenticateRouter } from "./authenticate.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -19,6 +20,7 @@ app.get("/", (request, response) => {
 });
 
 app.use("/loginusers", userRouter);
+app.use("/verifyuser", authenticateRouter);
 
 async function createConnection() {
   const client = new MongoClient(MONGO_URL);
