@@ -1,10 +1,13 @@
 import express from "express";
 import nodemailer from "nodemailer";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
 router.route("/authenticate").post((request, response) => {
   const { email } = request.body;
+
+  const token = jwt.sign({ email: email }, process.env.SECRET_KEY);
 
   const transport = nodemailer.createTransport({
     service: "gmail",
@@ -18,7 +21,7 @@ router.route("/authenticate").post((request, response) => {
     from: process.env.USER_MAIL,
     to: `${email}`,
     subject: "Hello from Node App",
-    html: `<h1>Hello from App</h1>`,
+    html: `Click <a href="https://nodeurlapp.herokuapp.com/verifyuser/activateuser/' + ${token} + '">here</a> to confirm your registration`,
   };
 
   transport.sendMail(mailOptions, function (err, info) {
@@ -29,6 +32,15 @@ router.route("/authenticate").post((request, response) => {
       response.send("Mail Sent");
     }
   });
+});
+
+// router.route("/activate/:id").post(async (request,response) => {
+// const id = request.params
+// })
+
+router.route("/activateuser/:token").get(async (req, res) => {
+  const token = req.params;
+  res.send({ message: "Account Activated" });
 });
 
 export const authenticateRouter = router;
