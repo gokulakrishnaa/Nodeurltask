@@ -35,7 +35,7 @@ router.route("/authenticate").post((request, response) => {
   });
 });
 
-router.route("/activateuser/:token").get(async (req, res) => {
+router.route("/activateuser/:token").post(async (req, res) => {
   const token = req.params;
   res.send({ message: "Activated" });
 });
