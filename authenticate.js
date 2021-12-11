@@ -1,6 +1,7 @@
 import express from "express";
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
+import { MongoClient } from "mongodb";
 
 const router = express.Router();
 
@@ -34,13 +35,9 @@ router.route("/authenticate").post((request, response) => {
   });
 });
 
-// router.route("/activate/:id").post(async (request,response) => {
-// const id = request.params
-// })
-
 router.route("/activateuser/:token").get(async (req, res) => {
   const token = req.params;
-  res.send({ message: "Account Activated" });
+  res.send({ message: "Activated" });
 });
 
 export const authenticateRouter = router;

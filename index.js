@@ -1,7 +1,8 @@
 import express from "express";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import { userRouter } from "./users.js";
 import { authenticateRouter } from "./authenticate.js";
+import { fpassRouter } from "./fpass.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -21,6 +22,7 @@ app.get("/", (request, response) => {
 
 app.use("/loginusers", userRouter);
 app.use("/verifyuser", authenticateRouter);
+app.use("/fpass", fpassRouter);
 
 async function createConnection() {
   const client = new MongoClient(MONGO_URL);
@@ -65,6 +67,13 @@ export async function getUserByMail(email) {
     .db("urlusers")
     .collection("users")
     .findOne({ email: email });
+}
+
+export async function getUserById(id) {
+  return await client
+    .db("urlusers")
+    .collection("users")
+    .findOne({ _id: ObjectId(id) });
 }
 
 app.listen(PORT, () => console.log("App Started in ", PORT));
