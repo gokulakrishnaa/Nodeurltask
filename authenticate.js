@@ -22,7 +22,7 @@ router.route("/authenticate").post((request, response) => {
     from: process.env.USER_MAIL,
     to: `${email}`,
     subject: "Hello from Node App",
-    html: `Click <a href="http://localhost:3000/activateuser/${token}">here</a> to confirm your registration`,
+    html: `Click <a href="https://romantic-leavitt-7ea6a6.netlify.app/activateuser/${token}">here</a> to confirm your registration`,
   };
 
   transport.sendMail(mailOptions, function (err, info) {

@@ -32,7 +32,7 @@ router.route("/forgot-password").post(async (req, res) => {
       from: process.env.USER_MAIL,
       to: `${email}`,
       subject: "Hello from Node App",
-      html: `Click <a href="http://localhost:3000/resetpassword/${userFromDB._id}/${token}">here</a> for resetting your password`,
+      html: `Click <a href="https://romantic-leavitt-7ea6a6.netlify.app/resetpassword/${userFromDB._id}/${token}">here</a> for resetting your password`,
     };
 
     transport.sendMail(mailOptions, function (err, info) {
