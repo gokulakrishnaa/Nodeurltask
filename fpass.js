@@ -2,7 +2,7 @@ import express from "express";
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-import { getUserByMail, getUserById } from "./index.js";
+import { getUserByMail, getUserById, updatePassword } from "./index.js";
 
 const router = express.Router();
 
@@ -27,7 +27,7 @@ router.route("/forgot-password").post(async (req, res) => {
       from: process.env.USER_MAIL,
       to: `${email}`,
       subject: "Hello from Node App",
-      html: `Click <a href="https://localhost:3000/activate/${userFromDB._id}/${token}">here</a> for resetting your password`,
+      html: `Click <a href="https://localhost:3000/resetpassword/${userFromDB._id}/${token}">here</a> for resetting your password`,
     };
 
     transport.sendMail(mailOptions, function (err, info) {
@@ -43,9 +43,9 @@ router.route("/forgot-password").post(async (req, res) => {
   }
 });
 
-router.route("/reset-password/:id/:token").get(async (req, res) => {
+router.route("/reset-password/:id/:token").post(async (req, res) => {
   const { token, id } = req.params;
-  console.log(token, id);
+  const { newPass } = req.body;
   const userFromDB = await getUserById(id);
   console.log(userFromDB);
   if (JSON.stringify(id) !== JSON.stringify(userFromDB._id)) {
@@ -53,7 +53,9 @@ router.route("/reset-password/:id/:token").get(async (req, res) => {
     return;
   } else {
     jwt.verify(token, process.env.SECRET_KEY);
-    res.send({ message: "Verified" });
+    const hashedPassword = await genPassword(newPass);
+    const result = await updatePassword({ id, password: hashedPassword });
+    res.send(result);
   }
 });
 

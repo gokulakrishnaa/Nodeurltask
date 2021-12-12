@@ -76,4 +76,11 @@ export async function getUserById(id) {
     .findOne({ _id: ObjectId(id) });
 }
 
+export async function updatePassword(id, password) {
+  return await client
+    .db("urlusers")
+    .collection("users")
+    .updateOne({ _id: ObjectId(id) }, { $set: { password: password } });
+}
+
 app.listen(PORT, () => console.log("App Started in ", PORT));
