@@ -35,9 +35,9 @@ router.route("/authenticate").post((request, response) => {
   });
 });
 
-// router.route("/activateuser/:token").get(async (req, res) => {
-//   const token = req.params;
-//   res.send({ message: "Activated" });
-// });
+router.route("/activateuser/:token").post(async (req, res) => {
+  const token = req.params;
+  res.send({ message: "Activated" });
+});
 
 export const authenticateRouter = router;
