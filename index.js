@@ -77,6 +77,7 @@ export async function getUserById(id) {
 }
 
 export async function updatePassword(id, password) {
+  console.log(password);
   return await client
     .db("urlusers")
     .collection("users")

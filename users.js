@@ -53,6 +53,8 @@ router.route("/login").post(async (request, response) => {
   }
 
   const storedPassword = userFromDB.password;
+  console.log(userFromDB);
+  console.log(storedPassword);
   const isPasswordMatch = await bcrypt.compare(password, storedPassword);
   if (isPasswordMatch) {
     const result = await createStatus({ current_status: "Logged In" });

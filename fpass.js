@@ -2,7 +2,12 @@ import express from "express";
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-import { getUserByMail, getUserById, updatePassword } from "./index.js";
+import {
+  getUserByMail,
+  getUserById,
+  updatePassword,
+  genPassword,
+} from "./index.js";
 
 const router = express.Router();
 
@@ -54,7 +59,8 @@ router.route("/reset-password/:id/:token").post(async (req, res) => {
   } else {
     jwt.verify(token, process.env.SECRET_KEY);
     const hashedPassword = await genPassword(newPass);
-    const result = await updatePassword({ id, password: hashedPassword });
+    console.log("After generate password", hashedPassword);
+    const result = await updatePassword(id, hashedPassword);
     res.send(result);
   }
 });
