@@ -49,7 +49,7 @@ router.route("/reset-password/:id/:token").post(async (req, res) => {
   const userFromDB = await getUserById(id);
   console.log(userFromDB);
   if (JSON.stringify(id) !== JSON.stringify(userFromDB._id)) {
-    res.send("Invalid Id...");
+    res.send({ message: "Invalid Id" });
     return;
   } else {
     jwt.verify(token, process.env.SECRET_KEY);
