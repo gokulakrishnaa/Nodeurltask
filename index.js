@@ -3,6 +3,7 @@ import { MongoClient, ObjectId } from "mongodb";
 import { userRouter } from "./users.js";
 import { authenticateRouter } from "./authenticate.js";
 import { fpassRouter } from "./fpass.js";
+import { urlShortRouter } from "./urlshort.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -23,6 +24,7 @@ app.get("/", (request, response) => {
 app.use("/loginusers", userRouter);
 app.use("/verifyuser", authenticateRouter);
 app.use("/fpass", fpassRouter);
+app.use("/urlshort", urlShortRouter);
 
 async function createConnection() {
   const client = new MongoClient(MONGO_URL);
@@ -82,6 +84,24 @@ export async function updatePassword(id, password) {
     .db("urlusers")
     .collection("users")
     .updateOne({ _id: ObjectId(id) }, { $set: { password: password } });
+}
+
+export async function createUrl(url, shortId) {
+  return await client
+    .db("urlusers")
+    .collection("url")
+    .insertOne({ url: url, shortId: shortId });
+}
+
+export async function getShortUrl(url) {
+  return await client.db("urlusers").collection("url").findOne({ url: url });
+}
+
+export async function getUrl(shortId) {
+  return await client
+    .db("urlusers")
+    .collection("url")
+    .findOne({ shortId: shortId });
 }
 
 app.listen(PORT, () => console.log("App Started in ", PORT));
