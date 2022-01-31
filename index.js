@@ -7,6 +7,9 @@ import { urlShortRouter } from "./urlshort.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import cors from "cors";
+import { adminRouter } from "./admin.js";
+import { teacherRouter } from "./teacher.js";
+import {studentRouter} from "./student.js"
 
 dotenv.config();
 const app = express();
@@ -25,6 +28,9 @@ app.use("/loginusers", userRouter);
 app.use("/verifyuser", authenticateRouter);
 app.use("/fpass", fpassRouter);
 app.use("/urlshort", urlShortRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/teacher", teacherRouter);
+app.use("/api/student", studentRouter)
 
 async function createConnection() {
   const client = new MongoClient(MONGO_URL);
